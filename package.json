@@ -1,0 +1,24 @@
+{
+  "name": "Amazon",
+  "version": "1.0.0",
+  "description": "please type in URL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy" : "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcmrn/amazon_registration.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcmrn/amazon_registration/issues"
+  },
+  "homepage": "https://mcmrn.github.io/amazon_registration",
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
+  }
+}
