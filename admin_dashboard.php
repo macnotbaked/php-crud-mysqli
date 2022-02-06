@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <?php
 $db = new Mysqli;
-
 $db->connect('localhost', 'root', '', 'register');
-
-$sql = "select * from users";
+if (isset($_POST['search'])) {
+  $searchKey = $_POST['search'];
+  $sql = "select * from users where name like '%$searchKey%'";
+} else {
+  $sql = "SELECT * FROM users";
+  $searchKey = "";
+}
 $rows = $db->query($sql);
 ?>
 
@@ -46,6 +50,8 @@ $rows = $db->query($sql);
     height: 8rem;
     color: #fff;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 
   .sidenav {
@@ -55,6 +61,7 @@ $rows = $db->query($sql);
     height: 100%;
     left: 0;
     width: 20rem;
+
   }
 
   .logo {
@@ -102,7 +109,7 @@ $rows = $db->query($sql);
   }
 
   th {
-    background-color: #232F3E;
+    background-color: #232f3e;
     color: #fff;
   }
 
@@ -114,8 +121,25 @@ $rows = $db->query($sql);
     background-color: #f2f2f2;
   }
 
-  i {
+  .fa-search {
+    color: #fff;
+  }
+
+  .fa-trash {
     color: #f0c14b;
+  }
+
+  input {
+    padding: 1.2rem;
+    outline: none;
+    width: 40rem;
+  }
+
+  button {
+    background-color: #f0c14b;
+    padding: 1.2rem;
+    border: 1px solid #f0c14b;
+    cursor: pointer;
   }
 </style>
 
@@ -133,36 +157,43 @@ $rows = $db->query($sql);
   <section class="main">
     <div class="container">
       <div class="wrapper">
-        <div class="header">
-          <h2>Admin Dashboard</h2>
-        </div>
-        <div class="table">
-          <table class="table--user">
-            <thead>
-              <tr>
-                <th>User ID</th>
-                <th>Name</th>
-                <th>Mobile number or email</th>
-                <th>Password</th>
-                <th>Action</th>
-              </tr>
-            </thead>
 
-            <tbody>
-              <tr>
-                <?php while ($row = $rows->fetch_assoc()) : ?>
-                  <td><?php echo $row['uid']; ?></td>
-                  <td><?php echo $row['name'] ?></td>
-                  <td><?php echo $row['phone'] ?></td>
-                  <td><?php echo $row['password'] ?></td>
-                  <td>
-                    <a href="deleted.php?id=<?php echo $row['uid']; ?>"><i class="fas fa-trash"></i></a>
-                  </td>
-              </tr>
-            <?php endwhile; ?>
-            </tbody>
-          </table>
-        </div>
+        <form action="" method="POST">
+          <div class="header">
+            <h2>Admin Dashboard</h2>
+            <div class="search">
+              <input type="text" name="search" placeholder="Search here" />
+              <!-- <button type="submit" name="search"><i class="fas fa-search"></i></button> -->
+            </div>
+          </div>
+          <div class="table">
+            <table class="table--user">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Name</th>
+                  <th>Mobile number or email</th>
+                  <th>Password</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <?php while ($row = mysqli_fetch_assoc($rows)) : ?>
+                    <td><?php echo $row['uid'] ?></td>
+                    <td><?php echo $row['name'] ?></td>
+                    <td><?php echo $row['phone'] ?></td>
+                    <td><?php echo $row['password'] ?></td>
+                    <td>
+                      <a href="deleted.php?id=<?php echo $row['uid'] ?>"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+              <?php endwhile;  ?>
+              </tbody>
+            </table>
+          </div>
+        </form>
       </div>
     </div>
   </section>
